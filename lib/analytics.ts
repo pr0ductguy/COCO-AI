@@ -1,5 +1,6 @@
 import { actions, archive, incoming, officers, outgoing } from "@/lib/data/store";
 import { isOverdue, type Department } from "@/lib/types";
+import { REFERENCE_DATE } from "@/lib/utils";
 
 // ============================================================================
 // Aggregations powering the dashboards. Pure functions over the mock store —
@@ -101,7 +102,8 @@ export function getBottlenecks(limit = 6) {
     .filter((a) => a.status !== "Closed" && a.status !== "Sent")
     .map((a) => {
       const ageDays = Math.round(
-        (Date.now() - new Date(a.dueDate).getTime()) / (1000 * 60 * 60 * 24)
+        (REFERENCE_DATE.getTime() - new Date(a.dueDate).getTime()) /
+          (1000 * 60 * 60 * 24)
       );
       return { ...a, ageDays };
     })

@@ -16,14 +16,14 @@ import { FilterSelect } from "@/components/shared/filter-select";
 import { PriorityBadge, StatusBadge } from "@/components/shared/status-badge";
 import { DEPARTMENTS } from "@/lib/data/constants";
 import { ACTION_STATUSES, type ActionItem } from "@/lib/types";
-import { cn, daysBetween, formatDate } from "@/lib/utils";
+import { cn, daysBetween, formatDate, REFERENCE_DATE } from "@/lib/utils";
 
 type Reminder = { kind: "overdue" | "due-soon" | "on-track"; label: string };
 
 function reminderFor(a: ActionItem): Reminder {
   if (a.status === "Closed" || a.status === "Sent")
     return { kind: "on-track", label: "Complete" };
-  const days = daysBetween(new Date(), a.dueDate);
+  const days = daysBetween(REFERENCE_DATE, a.dueDate);
   if (days === null) return { kind: "on-track", label: "—" };
   if (days < 0) return { kind: "overdue", label: `${-days}d overdue` };
   if (days <= 3) return { kind: "due-soon", label: `due in ${days}d` };

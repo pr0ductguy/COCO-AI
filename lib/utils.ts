@@ -5,6 +5,18 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+/**
+ * Fixed "today" for the prototype. The mock data is generated relative to this
+ * date, so anchoring all overdue/age calculations here keeps demo figures
+ * stable AND guarantees identical SSR/client renders (no hydration mismatch).
+ * In production this becomes `new Date()` once data is live.
+ */
+export const REFERENCE_DATE = new Date("2026-06-07T00:00:00Z");
+
+export function now(): Date {
+  return REFERENCE_DATE;
+}
+
 /** Format an ISO date string as e.g. "12 Mar 2024". */
 export function formatDate(date: string | Date | null | undefined): string {
   if (!date) return "—";

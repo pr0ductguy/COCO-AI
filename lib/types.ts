@@ -162,10 +162,12 @@ export interface ArchiveRecord {
 
 // --- Derived helpers -------------------------------------------------------
 
+import { REFERENCE_DATE } from "@/lib/utils";
+
 export function isOverdue(record: {
   dueDate: string;
   status: ActionStatus;
 }): boolean {
   if (record.status === "Closed" || record.status === "Sent") return false;
-  return new Date(record.dueDate).getTime() < Date.now();
+  return new Date(record.dueDate).getTime() < REFERENCE_DATE.getTime();
 }

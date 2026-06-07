@@ -27,7 +27,7 @@ import {
 } from "@/components/shared/status-badge";
 import { DEPARTMENTS } from "@/lib/data/constants";
 import { ACTION_STATUSES, type IncomingCorrespondence } from "@/lib/types";
-import { cn, formatDate, daysBetween } from "@/lib/utils";
+import { cn, formatDate, daysBetween, REFERENCE_DATE } from "@/lib/utils";
 
 const STAKEHOLDER_TYPES = [
   "Regulator",
@@ -129,7 +129,7 @@ export function IncomingRegister({
           <TableBody>
             {filtered.map((r) => {
               const overdue =
-                daysBetween(new Date(), r.dueDate)! < 0 &&
+                daysBetween(REFERENCE_DATE, r.dueDate)! < 0 &&
                 r.status !== "Closed";
               return (
                 <TableRow
