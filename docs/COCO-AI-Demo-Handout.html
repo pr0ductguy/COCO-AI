@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>COCO AI — Executive Demo & Q&amp;A Handout</title>
+<style>
+  :root{
+    --red:#dd1d21; --ink:#0f172a; --muted:#475569; --line:#e2e8f0;
+    --soft:#f8fafc; --accent:#fbce07;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink); line-height:1.45; font-size:13px; background:#fff;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:28px 34px;}
+  header.brand{display:flex;align-items:center;gap:14px;border-bottom:3px solid var(--red);padding-bottom:14px;margin-bottom:18px;}
+  .logo{width:46px;height:46px;border-radius:11px;background:var(--red);color:#fff;font-weight:900;font-size:24px;display:flex;align-items:center;justify-content:center;}
+  .brand h1{margin:0;font-size:22px;letter-spacing:-.3px;}
+  .brand .tag{margin:2px 0 0;color:var(--muted);font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;}
+  h2{font-size:16px;margin:22px 0 8px;padding:6px 10px;background:var(--ink);color:#fff;border-radius:6px;}
+  h3{font-size:13.5px;margin:16px 0 4px;color:var(--red);text-transform:uppercase;letter-spacing:.5px;}
+  p{margin:6px 0;}
+  .lede{background:var(--soft);border-left:4px solid var(--accent);padding:10px 12px;border-radius:0 6px 6px 0;margin:10px 0;}
+  table{width:100%;border-collapse:collapse;margin:8px 0 4px;font-size:12px;}
+  th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{background:var(--soft);font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);}
+  td.step{font-weight:800;color:var(--red);width:26px;}
+  .qa{margin:7px 0;padding-bottom:7px;border-bottom:1px dotted var(--line);}
+  .q{font-weight:700;}
+  .q::before{content:"Q ";color:var(--red);font-weight:900;}
+  .a{color:#1e293b;margin-top:2px;}
+  .a::before{content:"A ";color:var(--muted);font-weight:900;}
+  .pill{display:inline-block;background:var(--red);color:#fff;border-radius:20px;padding:1px 9px;font-size:11px;font-weight:700;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 24px;}
+  .note{font-size:11px;color:var(--muted);}
+  .star{color:var(--accent);}
+  footer{margin-top:18px;padding-top:10px;border-top:1px solid var(--line);font-size:10.5px;color:var(--muted);display:flex;justify-content:space-between;}
+  @media print{
+    .wrap{padding:0 8mm;max-width:none;}
+    h2{break-after:avoid;} h3{break-after:avoid;} .qa{break-inside:avoid;}
+    table{break-inside:auto;} tr{break-inside:avoid;}
+    .page-break{break-before:page;}
+    a{color:inherit;text-decoration:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brand">
+    <div class="logo">C</div>
+    <div>
+      <h1>COCO AI — Executive Demo &amp; Q&amp;A Handout</h1>
+      <p class="tag">Searchable · Auditable · Actionable &nbsp;|&nbsp; Corporate Correspondence Intelligence</p>
+    </div>
+  </header>
+
+  <div class="lede">
+    <strong>Open with this:</strong> &ldquo;Today, if a regulator asks <em>&lsquo;where is our letter from last March and who&rsquo;s handling it?&rsquo;</em> — no one can answer quickly. Correspondence lives in inboxes and spreadsheets. COCO AI turns all of it into one system that is <strong>searchable, auditable, and actionable.</strong> Let me show you.&rdquo;
+  </div>
+
+  <!-- ================= DEMO FLOW ================= -->
+  <h2>Part 1 — The Demo Flow (★ = the 5-minute version)</h2>
+  <table>
+    <thead><tr><th>#</th><th>Module</th><th>Click here</th><th>Say this</th><th>The &ldquo;wow&rdquo;</th></tr></thead>
+    <tbody>
+      <tr><td class="step">★1</td><td><b>Executive Dashboard</b></td><td>Home</td><td>&ldquo;The whole operation on one screen — leadership never had this.&rdquo;</td><td>Live KPIs, no analyst, no monthly report.</td></tr>
+      <tr><td class="step">★2</td><td><b>Incoming</b></td><td>Sidebar → Incoming</td><td>&ldquo;Every letter logged the moment it arrives.&rdquo; Filter by &ldquo;Regulator.&rdquo;</td><td><b>Transit Time</b> auto-calculated — the hidden delay made visible.</td></tr>
+      <tr><td class="step">3</td><td><b>Outgoing</b></td><td>Sidebar → Outgoing</td><td>&ldquo;Same discipline for what we send.&rdquo;</td><td><b>COCO Processing Time</b> auto-calculated.</td></tr>
+      <tr><td class="step">★4</td><td><b>Action Tracker</b></td><td>Sidebar → Actions</td><td>&ldquo;Every correspondence becomes an owned action with a deadline.&rdquo;</td><td>Overdue items <b>flash red</b>. No more &ldquo;I thought you had it.&rdquo;</td></tr>
+      <tr><td class="step">★5</td><td><b>SLA Monitor</b></td><td>Sidebar → SLA</td><td>&ldquo;How we stay ahead of commitments to regulators.&rdquo;</td><td>Intervene <b>before</b> a breach, not explain one after.</td></tr>
+      <tr><td class="step">6</td><td><b>Performance</b></td><td>Sidebar → Performance</td><td>&ldquo;Officer performance, fairly, on data.&rdquo;</td><td>Spot who&rsquo;s overloaded; rebalance work.</td></tr>
+      <tr><td class="step">★7</td><td><b>AI Letter Intelligence</b></td><td>Sidebar → Intelligence → click a sample</td><td>&ldquo;Watch what happens when a letter arrives.&rdquo; Let it run.</td><td><b>Headline moment.</b> AI extracts sender, due date, risk &amp; writes a summary in seconds. Pause here.</td></tr>
+      <tr><td class="step">★8</td><td><b>Historical Search</b></td><td>Sidebar → Search</td><td>Type <i>&ldquo;NUPRC gas flare approval&rdquo;</i>, then <i>&ldquo;community compensation.&rdquo;</i> Click a result.</td><td><b>Flagship.</b> 23 years (2003–2026) in one box. &ldquo;Find the 2003 letter&rdquo; → 3 seconds + full audit trail.</td></tr>
+      <tr><td class="step">9</td><td><b>Executive Reporting</b></td><td>Sidebar → Reporting</td><td>Read an insight aloud: &ldquo;Regulatory correspondence up 18% this quarter.&rdquo;</td><td>The system <b>writes the narrative</b> for leadership.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="lede">
+    <strong>Close with this:</strong> &ldquo;Searchable. Auditable. Actionable. It&rsquo;s built on the Microsoft 365 stack we already run — SharePoint, Outlook, Dataverse, Azure OpenAI — so we go from prototype to production without ripping anything out.&rdquo;
+  </div>
+
+  <h3>Presenter reminders</h3>
+  <p class="note">
+    • <b>Everything is clickable</b> — if someone says &ldquo;show me one,&rdquo; click any row; it always opens.
+    • Start &amp; end on the two <span class="star">★</span> AI features (Intelligence + Search) — they&rsquo;re the emotional peaks.
+    • Keep <b>two tabs open</b>: Dashboard + Search.
+    • If asked &ldquo;is this real data?&rdquo; → &ldquo;Realistic mock data to prove the model; production connects to our live systems.&rdquo;
+  </p>
+
+  <!-- ================= Q&A ================= -->
+  <div class="page-break"></div>
+  <h2>Part 2 — Likely Q&amp;A (keep this in front of you)</h2>
+  <p class="note">Short, confident answers. If you don&rsquo;t know, say: <i>&ldquo;Great question — I&rsquo;ll confirm the exact detail and follow up, but the short answer is&hellip;&rdquo;</i></p>
+
+  <div class="grid2">
+  <div>
+
+  <h3>The basics</h3>
+  <div class="qa"><p class="q">What is this, in one sentence?</p><p class="a">A single platform that tracks every letter in and out of Shell, finds any record instantly, and uses AI to read and summarise correspondence.</p></div>
+  <div class="qa"><p class="q">Is this live or a mock-up?</p><p class="a">It&rsquo;s a working prototype on realistic sample data. The screens, search and AI are real; production swaps the sample data for our live systems.</p></div>
+  <div class="qa"><p class="q">What does &ldquo;COCO&rdquo; stand for again?</p><p class="a">Corporate Correspondence — the function that manages all incoming and outgoing official letters.</p></div>
+  <div class="qa"><p class="q">Is this like SAP / SharePoint / our current system?</p><p class="a">It sits on top of them. It uses SharePoint and Outlook underneath, but adds the tracking, search and AI we don&rsquo;t have today.</p></div>
+  <div class="qa"><p class="q">Why do we need this — we&rsquo;ve managed with email?</p><p class="a">Email can&rsquo;t tell you what&rsquo;s overdue, who&rsquo;s causing delays, or where a 2003 letter is. This can, in seconds.</p></div>
+  <div class="qa"><p class="q">Did we build this ourselves?</p><p class="a">Yes — it&rsquo;s our design, on standard Microsoft technology, so we&rsquo;re not locked into an outside vendor.</p></div>
+
+  <h3>Security &amp; privacy</h3>
+  <div class="qa"><p class="q">Is our data safe?</p><p class="a">It lives inside our own Microsoft 365 tenant, under the same security and access controls we already trust for email and documents.</p></div>
+  <div class="qa"><p class="q">Can hackers see our letters?</p><p class="a">Access requires a Shell login; everything is encrypted in transit and at rest, with full access logging.</p></div>
+  <div class="qa"><p class="q">Is our data going to America / leaving the country?</p><p class="a">It stays in the Microsoft region we choose. Data residency is configurable to meet local requirements.</p></div>
+  <div class="qa"><p class="q">Who can see what?</p><p class="a">Role-based access — officers see their work, leadership sees the dashboards, and sensitive items can be restricted by department.</p></div>
+  <div class="qa"><p class="q">Does the AI send our letters to the public internet / ChatGPT?</p><p class="a">No. It uses Azure OpenAI inside our tenant — our data is not used to train any public model.</p></div>
+  <div class="qa"><p class="q">What happens if someone leaves the company?</p><p class="a">Their access is revoked centrally, but every action they logged stays in the audit trail.</p></div>
+
+  <h3>The AI</h3>
+  <div class="qa"><p class="q">Can we trust the AI? What if it&rsquo;s wrong?</p><p class="a">The AI assists — a person always reviews before anything is sent. It speeds up reading, it doesn&rsquo;t replace judgement.</p></div>
+  <div class="qa"><p class="q">Will the AI send a wrong letter to NUPRC?</p><p class="a">No. The AI never sends anything on its own. It drafts and flags; humans approve and dispatch.</p></div>
+  <div class="qa"><p class="q">Can it read handwriting / scanned / old documents?</p><p class="a">Yes — it reads scans and images with OCR. Older, messier documents may need a quick human check.</p></div>
+  <div class="qa"><p class="q">Will this replace our people / my secretary?</p><p class="a">No — it removes the manual typing and searching so our people handle more, faster. It&rsquo;s a tool, not a replacement.</p></div>
+  <div class="qa"><p class="q">How accurate is the extraction?</p><p class="a">High on standard letters, and it shows a confidence level. Anything uncertain is flagged for review.</p></div>
+  <div class="qa"><p class="q">Does it work in other languages?</p><p class="a">Yes — Azure OpenAI handles multiple languages; we configure the ones we receive.</p></div>
+
+  </div>
+  <div>
+
+  <h3>Money, time &amp; ROI</h3>
+  <div class="qa"><p class="q">What will this cost?</p><p class="a">It mostly uses Microsoft licences we already own; the main cost is build effort and AI usage, which scales with volume. I&rsquo;ll bring a detailed estimate.</p></div>
+  <div class="qa"><p class="q">What&rsquo;s the return / why spend on this?</p><p class="a">Faster responses, fewer missed deadlines, lower regulatory risk, and no more days lost searching archives. The sample shows assignment time dropping from 5.2 to 1.8 days.</p></div>
+  <div class="qa"><p class="q">How long to build the real thing?</p><p class="a">The foundation is already here. A production rollout is phased — connect systems first, then AI, then full history — over months, not years.</p></div>
+  <div class="qa"><p class="q">Who maintains it?</p><p class="a">It runs on managed Microsoft services, so IT maintains it with minimal overhead — no custom servers to babysit.</p></div>
+  <div class="qa"><p class="q">What if Microsoft raises prices / we change vendors?</p><p class="a">It&rsquo;s built on open standards and our own code, so it&rsquo;s portable. We&rsquo;re not trapped.</p></div>
+
+  <h3>Our history &amp; data</h3>
+  <div class="qa"><p class="q">Can it really find a letter from 2003?</p><p class="a">Yes — that&rsquo;s the flagship feature. Search any year from 2003 to today and retrieve the record with its audit trail.</p></div>
+  <div class="qa"><p class="q">How do we get 20 years of paper into it?</p><p class="a">Existing digital archives import directly; paper is scanned in batches, and the AI tags it automatically as it comes in.</p></div>
+  <div class="qa"><p class="q">What if a record is missing or wrong?</p><p class="a">Records can be corrected with a tracked edit — nothing is silently overwritten; the history is preserved.</p></div>
+  <div class="qa"><p class="q">Is anything ever deleted?</p><p class="a">Only under our retention policy, and deletions are logged. The default is to keep and archive.</p></div>
+
+  <h3>Compliance &amp; regulators</h3>
+  <div class="qa"><p class="q">Will this satisfy an audit?</p><p class="a">Yes — every record has a timestamped trail: received, assigned, actioned, sent. That&rsquo;s exactly what auditors ask for.</p></div>
+  <div class="qa"><p class="q">Can we prove when we received a regulator&rsquo;s letter?</p><p class="a">Yes — the received and stamped dates are recorded automatically and can&rsquo;t be quietly changed.</p></div>
+  <div class="qa"><p class="q">Does it meet our data-protection obligations?</p><p class="a">It inherits Microsoft 365&rsquo;s compliance certifications and our existing governance policies.</p></div>
+
+  <h3>Practical &amp; devices</h3>
+  <div class="qa"><p class="q">Can I use it on my phone / iPad?</p><p class="a">Yes — it works in any browser and adapts to phone, tablet and desktop.</p></div>
+  <div class="qa"><p class="q">Do I need to install anything?</p><p class="a">No — you open it in your web browser and sign in with your Shell account.</p></div>
+  <div class="qa"><p class="q">What if I forget my password?</p><p class="a">Same as email — it uses your normal Shell single sign-on, so there&rsquo;s no separate password to remember.</p></div>
+  <div class="qa"><p class="q">Can it print / export reports?</p><p class="a">Yes — dashboards and records export to PDF and Excel for board packs.</p></div>
+  <div class="qa"><p class="q">Is the training complicated?</p><p class="a">It&rsquo;s designed to feel like Office. Most users need a short orientation, not a course.</p></div>
+
+  <h3>Risks &amp; &ldquo;what if&rdquo;</h3>
+  <div class="qa"><p class="q">What if the system goes down?</p><p class="a">It runs on Microsoft&rsquo;s cloud with high availability; the source documents also remain safe in SharePoint.</p></div>
+  <div class="qa"><p class="q">What if the internet is down?</p><p class="a">Like email, it&rsquo;s online — but records are never lost, and access resumes the moment connectivity returns.</p></div>
+  <div class="qa"><p class="q">What if staff don&rsquo;t adopt it?</p><p class="a">It replaces tedious manual work, so it makes their day easier — adoption follows when the tool genuinely helps.</p></div>
+  <div class="qa"><p class="q">Can we start small?</p><p class="a">Yes — we can pilot with one department, prove the value, then scale.</p></div>
+
+  </div>
+  </div>
+
+  <h3>If you get a curveball you can&rsquo;t answer</h3>
+  <p class="note">Stay calm and bridge: <i>&ldquo;That&rsquo;s exactly the kind of detail we&rsquo;ll lock down in the production phase. The short answer is yes/we can — let me follow up with specifics.&rdquo;</i> Then steer back to a <span class="star">★</span> strength (Search or AI Intelligence).</p>
+
+  <footer>
+    <span>COCO AI — Corporate Correspondence Intelligence Platform · Executive Prototype</span>
+    <span>Searchable · Auditable · Actionable</span>
+  </footer>
+
+</div>
+</body>
+</html>
