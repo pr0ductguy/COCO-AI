@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>COCO AI — Product Requirements Document</title>
+<style>
+  :root{
+    --ink:#11181f; --muted:#586472; --soft:#f5f7f9; --line:#dfe5ea;
+    --red:#c0202a; --rule:#11181f;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;color:var(--ink);}
+  body{
+    font-family:"Calibri","Segoe UI",Helvetica,Arial,sans-serif;
+    font-size:10.6pt; line-height:1.5;
+  }
+  h1,h2,h3{line-height:1.25;}
+  /* Cover */
+  .cover{padding:0 4mm;}
+  .cover .eyebrow{letter-spacing:.28em;text-transform:uppercase;color:var(--red);font-weight:700;font-size:9pt;margin-bottom:18mm;}
+  .cover h1{font-size:30pt;margin:0;font-weight:800;letter-spacing:-.5px;}
+  .cover .sub{font-size:13pt;color:var(--muted);margin:6px 0 0;font-weight:600;}
+  .cover .line{height:4px;background:var(--red);width:64px;margin:14px 0 26px;border-radius:2px;}
+  .cover .meta{margin-top:30mm;border-top:1px solid var(--line);padding-top:10px;font-size:10pt;color:var(--muted);}
+  .cover .meta b{color:var(--ink);font-weight:700;}
+  .cover .meta div{margin:3px 0;}
+  /* Sections */
+  h2{font-size:15pt;margin:22px 0 8px;font-weight:800;border-bottom:2px solid var(--rule);padding-bottom:4px;}
+  h2 .n{color:var(--red);margin-right:8px;}
+  h3{font-size:11.4pt;margin:14px 0 4px;font-weight:700;}
+  p{margin:7px 0;}
+  ul,ol{margin:6px 0 6px 0;padding-left:20px;}
+  li{margin:3px 0;}
+  .lead{font-size:11.2pt;color:#22303c;}
+  .callout{background:var(--soft);border-left:3px solid var(--red);padding:9px 12px;margin:10px 0;border-radius:0 4px 4px 0;}
+  table{width:100%;border-collapse:collapse;margin:8px 0;font-size:9.6pt;}
+  th,td{text-align:left;padding:5px 8px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{background:var(--soft);text-transform:uppercase;letter-spacing:.4px;font-size:8.4pt;color:var(--muted);border-bottom:1.5px solid var(--line);}
+  .req b{color:var(--red);font-variant-numeric:tabular-nums;}
+  .story{background:#fff;border:1px solid var(--line);border-radius:6px;padding:9px 12px;margin:7px 0;}
+  .story .who{font-weight:700;}
+  .story .so{color:var(--muted);}
+  .story .ac{font-size:9.4pt;color:#33414f;margin-top:4px;}
+  .two{column-count:2;column-gap:20px;}
+  .two .story{break-inside:avoid;-webkit-column-break-inside:avoid;}
+  code{font-family:"Consolas","SF Mono",monospace;font-size:9.2pt;background:var(--soft);padding:1px 4px;border-radius:3px;}
+  .pagebreak{break-before:page;}
+  .tight li{margin:2px 0;}
+  .small{font-size:9.4pt;color:var(--muted);}
+  .kpi td:first-child{font-weight:700;width:60px;}
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<section class="cover">
+  <div class="eyebrow">Product Requirements Document</div>
+  <h1>COCO AI</h1>
+  <p class="sub">Correspondence Operations Intelligence Platform</p>
+  <div class="line"></div>
+  <p class="lead" style="max-width:150mm;">
+    A single place to capture, own, measure and instantly retrieve every piece of
+    correspondence the organisation sends or receives — with AI doing the reading,
+    the routing and the remembering. Searchable. Auditable. Actionable.
+  </p>
+  <div class="meta">
+    <div><b>Prepared for:</b> COCO (Corporate Correspondence)</div>
+    <div><b>Status:</b> Draft for review and hand-off</div>
+    <div><b>Date:</b> June 2026</div>
+    <div><b>Reference prototype:</b> Working application — nine modules, sample corpus spanning 2003&ndash;2026</div>
+  </div>
+</section>
+
+<!-- ============ 1 OVERVIEW ============ -->
+<section class="pagebreak">
+<h2><span class="n">1.</span>Overview</h2>
+<p class="lead">
+  COCO sits at the centre of how the organisation talks to the outside world. Every
+  letter from a regulator, every notice from a ministry, every request from a vendor,
+  every concern raised by a host community, and every formal reply we send back — all
+  of it passes through this function. Today that flow is run almost entirely out of
+  email and personal spreadsheets. It works, in the sense that letters do eventually
+  get answered, but it is impossible to see, impossible to measure, and very hard to
+  audit.
+</p>
+<p>
+  COCO AI replaces that scattered way of working with one system. The moment a letter
+  arrives it is logged, given an owner and a deadline, and tracked all the way through
+  to dispatch. Nothing sits in an inbox unseen. Leadership gets a live picture of the
+  whole operation instead of a monthly guess. And because every record is stored and
+  indexed, a letter from 2003 can be found in seconds rather than days.
+</p>
+<p>
+  On top of that foundation sits the part people remember from the demo: the AI reads
+  incoming documents, pulls out the sender, the reference, the deadline, the required
+  action and the risk, and writes a short summary — turning an hour of manual reading
+  and typing into a few seconds of review. A working prototype already demonstrates
+  every capability described in this document. What follows is what it must do to
+  become a production system.
+</p>
+</section>
+
+<!-- ============ 2 PROBLEM ============ -->
+<section>
+<h2><span class="n">2.</span>The problem we are solving</h2>
+<p>There is a short list of questions that leadership simply cannot answer today, and every one of them matters:</p>
+<ul class="tight">
+  <li>Where is a particular correspondence right now, and who owns it?</li>
+  <li>When did we actually receive it, and how long has it been sitting?</li>
+  <li>What is due, what is overdue, and who or what is causing the delay?</li>
+  <li>What business value — an approval, a permit, a payment — is being blocked while we wait?</li>
+  <li>Can we put our hands on a specific letter from years ago, instantly, with proof of when it arrived?</li>
+</ul>
+<p>
+  The reasons are structural, not personal. Correspondence lives in individual
+  mailboxes. There is no single register of record. Ownership, deadlines and service
+  levels are tracked informally if at all. The historical archive is not searchable.
+  And every incoming letter is read and re-keyed by hand. The cost shows up as missed
+  statutory deadlines, slow responses to government and communities, regulatory
+  exposure, lost institutional memory, and a leadership team operating without
+  visibility.
+</p>
+</section>
+
+<!-- ============ 3 GOALS ============ -->
+<section>
+<h2><span class="n">3.</span>Goals</h2>
+<table>
+  <tr><td style="width:48px;"><b>G1</b></td><td>Establish a single register of record for all incoming and outgoing correspondence.</td></tr>
+  <tr><td><b>G2</b></td><td>Give every record a complete, timestamped, tamper-evident audit trail.</td></tr>
+  <tr><td><b>G3</b></td><td>Turn every correspondence into a tracked action with an owner, a due date and a service level.</td></tr>
+  <tr><td><b>G4</b></td><td>Make any record — back to 2003 — retrievable in seconds.</td></tr>
+  <tr><td><b>G5</b></td><td>Use AI to extract key fields, assess risk and summarise, with a person always in the loop.</td></tr>
+  <tr><td><b>G6</b></td><td>Give leadership a live, honest view of volume, service levels, bottlenecks and team performance.</td></tr>
+</table>
+</section>
+
+<!-- ============ 4 SUCCESS CRITERIA ============ -->
+<section>
+<h2><span class="n">4.</span>Success criteria</h2>
+<p>
+  We will consider the production system a success when the following are true in day-to-day
+  use — not in a demo, but as the normal way COCO works. These are the conditions the
+  delivery will be judged against, and they double as the high-level acceptance criteria.
+</p>
+<ul>
+  <li><b>Nothing is invisible.</b> Every piece of correspondence in or out is in the system, each with a named owner and a due date. There is no parallel tracking happening in private spreadsheets.</li>
+  <li><b>The questions in Section&nbsp;2 are answerable on the spot.</b> Any manager can stand in front of the dashboard and say where something is, who has it, and whether it is late — without phoning around.</li>
+  <li><b>History is genuinely retrievable.</b> A named officer can find any historical letter, including one from 2003, in under ten seconds, and can show when it was received and how it was handled.</li>
+  <li><b>The AI saves real time.</b> An incoming letter can be turned into a structured, owned record from an uploaded document with a fraction of the manual typing it takes today, and the person reviewing trusts the result enough to use it.</li>
+  <li><b>Service levels are met and seen to be met.</b> SLA compliance holds at or above target, and when something is about to breach, the team sees it early enough to act.</li>
+  <li><b>It stands up to an audit.</b> An auditor can be handed a record and shown a complete, defensible trail from receipt to closure, with nothing edited away silently.</li>
+  <li><b>People actually use it.</b> Officers prefer it to the old way because it removes drudgery, and adoption does not have to be forced.</li>
+</ul>
+<p class="small">The measurable targets that sit underneath these criteria are in Section&nbsp;5.</p>
+</section>
+
+<!-- ============ 5 METRICS ============ -->
+<section>
+<h2><span class="n">5.</span>Success metrics</h2>
+<p>Concrete numbers we can track. The baselines come from the sample corpus and current working assumptions; they should be confirmed against live data early in delivery.</p>
+<table class="kpi">
+  <thead><tr><th>ID</th><th>What we measure</th><th>Baseline</th><th>Target</th></tr></thead>
+  <tbody>
+    <tr><td>M1</td><td>Average assignment (transit) time, received to assigned</td><td>~5.2 days</td><td>2 days or less</td></tr>
+    <tr><td>M2</td><td>SLA compliance</td><td>~86%</td><td>90%+ sustained</td></tr>
+    <tr><td>M3</td><td>Overdue open actions</td><td>Largely unmeasured</td><td>Down 50% within two quarters</td></tr>
+    <tr><td>M4</td><td>Time to retrieve a historical record</td><td>Hours to days</td><td>Under 10 seconds</td></tr>
+    <tr><td>M5</td><td>Manual data entry per incoming letter</td><td>Fully manual</td><td>Down ~80% via AI extraction</td></tr>
+    <tr><td>M6</td><td>Correspondence with a named owner and due date</td><td>Partial</td><td>100%</td></tr>
+    <tr><td>M7</td><td>Records with a complete audit trail</td><td>Inconsistent</td><td>100%</td></tr>
+  </tbody>
+</table>
+</section>
+
+<!-- ============ 6 USERS ============ -->
+<section>
+<h2><span class="n">6.</span>Who uses it</h2>
+<table>
+  <thead><tr><th>Role</th><th>What they need from COCO AI</th></tr></thead>
+  <tbody>
+    <tr><td><b>COCO Officer</b></td><td>Log, own, action and dispatch correspondence; meet deadlines without chasing.</td></tr>
+    <tr><td><b>COCO Manager</b></td><td>See the whole pipeline; manage service levels, bottlenecks and team workload.</td></tr>
+    <tr><td><b>Executive / Leadership</b></td><td>Transparency and a clear narrative; assurance that risk is under control.</td></tr>
+    <tr><td><b>Department Reviewer</b></td><td>Receive routed items, contribute input and approve drafts.</td></tr>
+    <tr><td><b>Auditor / Compliance</b></td><td>Prove receipt dates and follow a complete trail end to end.</td></tr>
+    <tr><td><b>Records / Archivist</b></td><td>Retrieve and curate the historical corpus.</td></tr>
+    <tr><td><b>Administrator</b></td><td>Manage access, roles and the underlying integrations.</td></tr>
+  </tbody>
+</table>
+</section>
+
+<!-- ============ 7 USER STORIES ============ -->
+<section class="pagebreak">
+<h2><span class="n">7.</span>User stories</h2>
+<p>
+  Written from the point of view of the people who will live in this system every day.
+  Each one carries an implied test: it is done when the person described can do the thing
+  described, on real data, without a workaround.
+</p>
+
+<h3>Capturing and owning correspondence</h3>
+<div class="story">
+  <p class="who">As a COCO Officer, I want every incoming letter logged the moment it arrives, with a reference, sender, date received and date stamped,
+  <span class="so">so that nothing slips into a mailbox and disappears.</span></p>
+  <p class="ac">Done when: a new incoming record can be created in under a minute and immediately appears in the register with its transit clock running.</p>
+</div>
+<div class="story">
+  <p class="who">As a COCO Manager, I want each correspondence assigned to a named owner with a due date and priority,
+  <span class="so">so that responsibility is never ambiguous.</span></p>
+  <p class="ac">Done when: no item can sit in the pipeline without an owner, and unassigned items are visibly flagged.</p>
+</div>
+<div class="story">
+  <p class="who">As a COCO Officer, I want the system to calculate transit time and COCO processing time for me,
+  <span class="so">so that the delays we have always argued about are finally measured, not guessed.</span></p>
+  <p class="ac">Done when: both figures appear automatically from the recorded dates and feed the dashboards.</p>
+</div>
+
+<h3>Staying on top of the work</h3>
+<div class="story">
+  <p class="who">As a COCO Officer, I want overdue and due-soon items to stand out at a glance,
+  <span class="so">so that I work on the right thing first.</span></p>
+  <p class="ac">Done when: the Action Tracker visibly distinguishes overdue, due-soon and on-track, and I can filter to just my overdue items.</p>
+</div>
+<div class="story">
+  <p class="who">As a COCO Manager, I want to see which departments and which officers are slipping on service levels,
+  <span class="so">so that I can step in before a breach becomes a problem.</span></p>
+  <p class="ac">Done when: SLA compliance and overdue load are shown per team and per officer, and a looming breach is visible early.</p>
+</div>
+
+<h3>Reading and routing with AI</h3>
+<div class="story">
+  <p class="who">As a COCO Officer, I want to upload a scanned letter and have the system pull out the sender, reference, due date, required action and risk, then write a summary,
+  <span class="so">so that I spend my time deciding, not typing.</span></p>
+  <p class="ac">Done when: an uploaded document produces the extracted fields with a confidence score, and I can turn the result into a draft record with one step.</p>
+</div>
+<div class="story">
+  <p class="who">As a COCO Manager, I want the AI to flag the risk level of an incoming item,
+  <span class="so">so that a critical regulatory deadline is never treated as routine.</span></p>
+  <p class="ac">Done when: each AI-processed item carries a risk level that a human can confirm or override.</p>
+</div>
+
+<h3>Finding anything, proving everything</h3>
+<div class="story">
+  <p class="who">As a Records Archivist, I want to search the entire history by words, sender, year, department or theme,
+  <span class="so">so that retrieving a decades-old letter takes seconds.</span></p>
+  <p class="ac">Done when: a free-text query returns ranked results across 2003 to today, narrowable by every listed filter.</p>
+</div>
+<div class="story">
+  <p class="who">As an Auditor, I want to open any record and see a complete timeline from receipt to closure,
+  <span class="so">so that I can verify how and when we handled it.</span></p>
+  <p class="ac">Done when: the record profile shows full metadata and an audit trail, and any change is recorded rather than overwritten.</p>
+</div>
+
+<h3>Seeing the whole picture</h3>
+<div class="story">
+  <p class="who">As an Executive, I want a dashboard of volume, open and overdue actions, service levels and bottlenecks, plus a short written summary of what is happening,
+  <span class="so">so that I understand the state of correspondence without commissioning a report.</span></p>
+  <p class="ac">Done when: leadership can read the current position and the key shifts (for example, &ldquo;regulatory correspondence up 18% this quarter&rdquo;) directly from the screen.</p>
+</div>
+</section>
+
+<!-- ============ 8 FUNCTIONAL REQUIREMENTS ============ -->
+<section class="pagebreak">
+<h2><span class="n">8.</span>Functional requirements</h2>
+<p class="small">MUST = required for the first production release. SHOULD = strongly wanted. MAY = optional.</p>
+
+<h3>8.1 Executive Dashboard</h3>
+<ul class="req tight">
+  <li><b>DASH-01 (MUST)</b> — Headline figures: incoming and outgoing totals, open actions, overdue actions, SLA compliance, average response time, average transit time, average COCO processing time, critical-open count.</li>
+  <li><b>DASH-02 (MUST)</b> — Volume trend of incoming versus outgoing over a rolling period.</li>
+  <li><b>DASH-03 (MUST)</b> — Department performance: volume, overdue load and SLA.</li>
+  <li><b>DASH-04 (MUST)</b> — Top bottlenecks: the oldest open items, with owner and age, click-through to the record.</li>
+  <li><b>DASH-05 (SHOULD)</b> — Stakeholder mix and pipeline-status breakdown.</li>
+  <li><b>DASH-06 (SHOULD)</b> — A panel of AI executive insights linking to full reporting.</li>
+</ul>
+
+<h3>8.2 Incoming Correspondence</h3>
+<ul class="req tight">
+  <li><b>IN-01 (MUST)</b> — Capture reference number, subject, sender, stakeholder type, date received, date stamped, date assigned, assigned owner, department, due date, priority, status and document type.</li>
+  <li><b>IN-02 (MUST)</b> — Automatically calculate <i>transit time</i> (date assigned minus date stamped).</li>
+  <li><b>IN-03 (MUST)</b> — Filter by department, status, priority and stakeholder type, plus free-text search across reference, subject, sender and owner.</li>
+  <li><b>IN-04 (MUST)</b> — Clearly flag overdue items, and open a full record on selection.</li>
+  <li><b>IN-05 (SHOULD)</b> — Export the filtered register, and log a new item manually or straight from an AI extraction.</li>
+</ul>
+
+<h3>8.3 Outgoing Correspondence</h3>
+<ul class="req tight">
+  <li><b>OUT-01 (MUST)</b> — Capture reference, subject, recipient, stakeholder type, department, draft-completed date, submitted-to-COCO date, processed date, sent date, delivery status, document type and owner.</li>
+  <li><b>OUT-02 (MUST)</b> — Automatically calculate <i>COCO processing time</i> (processed date minus submitted-to-COCO date).</li>
+  <li><b>OUT-03 (MUST)</b> — Track the delivery lifecycle from draft through to delivered, acknowledged or returned, with filtering and detail equivalent to Incoming.</li>
+</ul>
+
+<h3>8.4 Action Tracker</h3>
+<ul class="req tight">
+  <li><b>ACT-01 (MUST)</b> — Every correspondence produces a trackable action carrying reference, description, owner, department, due date, priority, status, progress and direction.</li>
+  <li><b>ACT-02 (MUST)</b> — Support the lifecycle: Received, Assigned, In Progress, Response Drafted, Submitted To COCO, Sent, Closed.</li>
+  <li><b>ACT-03 (MUST)</b> — Reminder indicators for overdue, due-soon and on-track, with counters that filter the list.</li>
+  <li><b>ACT-04 (SHOULD)</b> — Filter by owner, department, status and direction.</li>
+</ul>
+
+<h3>8.5 SLA Monitor</h3>
+<ul class="req tight">
+  <li><b>SLA-01 (MUST)</b> — Overall compliance against target, overdue actions and average handling time.</li>
+  <li><b>SLA-02 (MUST)</b> — Team and department comparison, and a compliance trend over time against target.</li>
+  <li><b>SLA-03 (SHOULD)</b> — Configurable SLA windows by priority and stakeholder type.</li>
+</ul>
+
+<h3>8.6 Performance Dashboard</h3>
+<ul class="req tight">
+  <li><b>PERF-01 (MUST)</b> — Per-officer metrics: letters processed, average turnaround, SLA compliance, overdue count and open workload.</li>
+  <li><b>PERF-02 (MUST)</b> — A leaderboard ranked by service level then turnaround.</li>
+  <li><b>PERF-03 (SHOULD)</b> — Compare officers across volume, speed and workload, and highlight overload for rebalancing.</li>
+</ul>
+
+<h3>8.7 AI Letter Intelligence</h3>
+<ul class="req tight">
+  <li><b>AI-01 (MUST)</b> — An upload area (drag-and-drop and browse) accepting PDF and common image formats.</li>
+  <li><b>AI-02 (MUST)</b> — Extract sender, recipient, subject, reference number, due date, required action, stakeholder type and risk level.</li>
+  <li><b>AI-03 (MUST)</b> — Produce a written summary and show an extraction confidence score.</li>
+  <li><b>AI-04 (MUST)</b> — Let the result become a draft record or action, confirmed by a person. The AI never sends anything on its own.</li>
+  <li><b>AI-05 (SHOULD)</b> — Show the processing stages so the user can see what the system is doing.</li>
+</ul>
+
+<h3>8.8 Executive Reporting</h3>
+<ul class="req tight">
+  <li><b>REP-01 (MUST)</b> — Generate plain-language insights with direction and magnitude, for example a quarter-on-quarter rise in regulatory correspondence or a fall in assignment time.</li>
+  <li><b>REP-02 (MUST)</b> — A management summary with supporting charts: volume, status mix, historical volume by year and stakeholder mix.</li>
+  <li><b>REP-03 (SHOULD)</b> — Export an executive brief, and optionally schedule its delivery.</li>
+</ul>
+
+<h3>8.9 Historical Search &amp; Retrieval &mdash; the flagship</h3>
+<ul class="req tight">
+  <li><b>SEARCH-01 (MUST)</b> — Full-text search across all records from 2003 to the present, over subject, sender, recipient, reference, summary and tags.</li>
+  <li><b>SEARCH-02 (MUST)</b> — Filters for year, sender, recipient, department, stakeholder type, document type and status.</li>
+  <li><b>SEARCH-03 (MUST)</b> — Results as cards showing title, date, sender, recipient, summary, department, tags and direction.</li>
+  <li><b>SEARCH-04 (MUST)</b> — An AI summary panel that synthesises the current result set: count, date range, dominant stakeholder and recurring themes.</li>
+  <li><b>SEARCH-05 (MUST)</b> — Selecting a result opens a full profile with metadata, summary, audit timeline, tags and related correspondence.</li>
+  <li><b>SEARCH-06 (SHOULD)</b> — Semantic search alongside keyword search, so a concept matches even when the words differ.</li>
+</ul>
+</section>
+
+<!-- ============ 9 DATA MODEL ============ -->
+<section class="pagebreak">
+<h2><span class="n">9.</span>Data model</h2>
+<p>The core entities below come straight from the prototype's typed model and map cleanly onto Dataverse tables.</p>
+<ul class="tight">
+  <li><b>Incoming Correspondence</b> — reference, subject, sender, stakeholder type, dates (received, stamped, assigned, due), owner, department, priority, status, document type, derived transit time, tags, summary.</li>
+  <li><b>Outgoing Correspondence</b> — reference, subject, recipient, stakeholder type, department, dates (draft completed, submitted to COCO, processed, sent), delivery status, document type, owner, derived COCO processing time, tags, summary.</li>
+  <li><b>Action Item</b> — correspondence reference, description, owner, department, due date, priority, status, progress, direction.</li>
+  <li><b>Officer</b> — name, role, department, letters processed, average turnaround, SLA compliance, overdue count, open workload.</li>
+  <li><b>Archive Record</b> — reference, title, date, sender, recipient, direction, department, stakeholder type, document type, status, summary, tags, page/size metadata, and a link to the source document in SharePoint.</li>
+</ul>
+<p>
+  Shared enumerations cover stakeholder type, priority, risk level, department, document type,
+  action status and delivery status. Derived values — transit time, COCO processing time, the
+  overdue flag, action age and SLA compliance — are calculated in one place so every screen
+  agrees on the numbers.
+</p>
+</section>
+
+<!-- ============ 10 AI ============ -->
+<section>
+<h2><span class="n">10.</span>AI capability and governance</h2>
+<p>
+  The AI work runs on Azure OpenAI inside the organisation's own tenant. It performs document
+  reading and layout analysis, classification of document and stakeholder type, structured field
+  extraction, risk scoring, summarisation, and the embeddings that power semantic historical search.
+</p>
+<p>The governing principles are non-negotiable:</p>
+<ul class="tight">
+  <li>A person reviews and approves every output that has an effect. The AI never dispatches correspondence.</li>
+  <li>Confidence is always shown; low-confidence results are flagged for human attention.</li>
+  <li>Documents and prompts are processed in the chosen region and are not used to train any public model.</li>
+  <li>AI-suggested values are stored alongside the human-confirmed values, and each extracted field links back to its place in the source document.</li>
+</ul>
+</section>
+
+<!-- ============ 11 INTEGRATIONS ============ -->
+<section>
+<h2><span class="n">11.</span>How it connects to our systems</h2>
+<p>
+  The prototype is deliberately built around a clean seam: the interface talks to a data and
+  analytics layer, never directly to storage. In production each connector below replaces the
+  sample data with a live service, and the interface does not have to change.
+</p>
+<table>
+  <thead><tr><th>Service</th><th>Its job in COCO AI</th></tr></thead>
+  <tbody>
+    <tr><td><b>Microsoft 365 / Entra ID</b></td><td>Single sign-on, identity and role assignment.</td></tr>
+    <tr><td><b>Outlook / Exchange</b></td><td>Pull incoming correspondence from monitored COCO mailboxes; send approved replies.</td></tr>
+    <tr><td><b>SharePoint</b></td><td>The document library of record for scanned originals, with retention back to 2003.</td></tr>
+    <tr><td><b>Dataverse</b></td><td>The system of record for correspondence, actions, officers, SLAs and audit history.</td></tr>
+    <tr><td><b>Power Automate</b></td><td>Routing, reminders, escalations and SLA-breach workflows when records change.</td></tr>
+    <tr><td><b>Azure OpenAI</b></td><td>Document understanding, extraction, summarisation and semantic search.</td></tr>
+    <tr><td><b>Azure AI Search</b></td><td>A hybrid keyword and meaning-based index across the full archive.</td></tr>
+  </tbody>
+</table>
+<p class="callout">
+  Worth stating plainly: Dataverse and Power Automate can be the backend and workflow engine,
+  while COCO AI provides the experience layer — the dashboards, the AI intelligence and the search.
+  These are complementary, not competing, choices.
+</p>
+</section>
+
+<!-- ============ 12 NFR ============ -->
+<section>
+<h2><span class="n">12.</span>Non-functional requirements</h2>
+<ul class="tight">
+  <li><b>Security.</b> Access through Entra ID single sign-on, with role-based control for officer, manager, executive, auditor and administrator. Encryption in transit and at rest. Access is logged. Sensitive items can be restricted by department or classification.</li>
+  <li><b>Auditability.</b> A timestamped trail per record from receipt to closure. Corrections are tracked edits, never silent overwrites.</li>
+  <li><b>Privacy and residency.</b> Configurable data residency and compliance with applicable data-protection obligations.</li>
+  <li><b>Performance.</b> Search should return in under two seconds across the full archive; everyday interactions should feel instant.</li>
+  <li><b>Availability.</b> Run on managed cloud with high availability; source documents remain independently safe in SharePoint.</li>
+  <li><b>Accessibility and reach.</b> Aim for WCAG 2.1 AA; work responsively on desktop, tablet and phone.</li>
+  <li><b>Scale and retention.</b> Hold twenty-plus years of records and a growing annual volume without redesign; govern retention and deletion by policy, with deletions logged.</li>
+</ul>
+</section>
+
+<!-- ============ 13 MIGRATION ============ -->
+<section class="pagebreak">
+<h2><span class="n">13.</span>Bringing the history in (2003&ndash;2026)</h2>
+<p>
+  This is the largest single effort in the programme, and it is honest to say so up front. It is also
+  largely independent of which front-end technology is chosen, so it should be planned and resourced
+  as its own workstream.
+</p>
+<ol class="tight">
+  <li>Inventory the existing digital archives and the physical records.</li>
+  <li>Import structured and digital records into Dataverse; place originals in SharePoint.</li>
+  <li>Scan physical correspondence in batches, with OCR and AI auto-tagging on the way in.</li>
+  <li>Reconcile and quality-check; send low-confidence extractions for human review.</li>
+  <li>Index the corpus for fast retrieval.</li>
+  <li>Phase by value: load the periods and regulators that get referenced most often first, then backfill the rest.</li>
+</ol>
+</section>
+
+<!-- ============ 14 ROADMAP ============ -->
+<section>
+<h2><span class="n">14.</span>Delivery roadmap</h2>
+<table>
+  <thead><tr><th>Phase</th><th>What it delivers</th></tr></thead>
+  <tbody>
+    <tr><td><b>0 — Foundation (done)</b></td><td>The working prototype: all nine modules on a sample corpus, validating the experience, the data model and the AI workflow.</td></tr>
+    <tr><td><b>1 — Identity &amp; records</b></td><td>Live single sign-on and Dataverse as the system of record, with role-based access and the audit trail.</td></tr>
+    <tr><td><b>2 — Ingestion</b></td><td>Automatic capture from Outlook and the SharePoint document store.</td></tr>
+    <tr><td><b>3 — Intelligence</b></td><td>Live Azure OpenAI extraction and summaries, replacing the simulated version, with confidence and human review.</td></tr>
+    <tr><td><b>4 — Search at scale</b></td><td>Hybrid keyword and semantic search across the whole archive.</td></tr>
+    <tr><td><b>5 — Workflow &amp; alerts</b></td><td>Routing, reminders and SLA escalations through Power Automate.</td></tr>
+    <tr><td><b>6 — Migration</b></td><td>The historical corpus loaded, phased by value.</td></tr>
+    <tr><td><b>7 — Hardening &amp; rollout</b></td><td>Performance, accessibility, training, and a pilot that scales to full use.</td></tr>
+  </tbody>
+</table>
+</section>
+
+<!-- ============ 15 RISKS ============ -->
+<section>
+<h2><span class="n">15.</span>Risks and how we handle them</h2>
+<table>
+  <thead><tr><th>Risk</th><th>How we manage it</th></tr></thead>
+  <tbody>
+    <tr><td>The historical migration is bigger than expected</td><td>Treat it as a dedicated, phased workstream; prioritise by how often records are actually needed.</td></tr>
+    <tr><td>AI extraction makes mistakes</td><td>Keep a person in the loop, set confidence thresholds and link every field back to the source.</td></tr>
+    <tr><td>People do not adopt it</td><td>It removes manual toil, so it earns its place; pilot one department and keep the experience familiar.</td></tr>
+    <tr><td>Sensitive data is over-exposed</td><td>Role-based access, classification, encryption and access logging.</td></tr>
+    <tr><td>Scope creeps beyond COCO</td><td>Hold the scope; defer everything else to a future-candidates list.</td></tr>
+    <tr><td>The custom-versus-low-code debate stalls the decision</td><td>Frame it as backend versus experience layer and decide that explicitly, rather than as an either/or.</td></tr>
+  </tbody>
+</table>
+</section>
+
+<!-- ============ 16 ARCHITECTURE ============ -->
+<section>
+<h2><span class="n">16.</span>How the prototype is actually built</h2>
+<p>
+  This section exists so that anyone assessing the prototype can judge it as an engineering
+  foundation rather than a throwaway mock-up. The structure was chosen deliberately, with
+  production in mind from the start.
+</p>
+<ul class="tight">
+  <li><b>Layered, with a swappable storage seam.</b> The interface reads from an analytics layer, which reads from a data interface, which today points at sample data and tomorrow points at Dataverse. The interface never touches raw storage, so the backend can be changed without rewriting the screens.</li>
+  <li><b>A single typed domain model</b> shared across the data, analytics and interface layers — the same shape described in Section&nbsp;9, so the move to Dataverse is a mapping exercise, not a redesign.</li>
+  <li><b>An explicit integration layer</b> that already names the contracts for Microsoft 365, Outlook, SharePoint, Dataverse, Power Automate and Azure OpenAI — the precise points where live services attach.</li>
+  <li><b>Reproducible, seeded data</b> so the system renders consistently and demonstrations stay stable.</li>
+  <li><b>A disciplined server-and-client split,</b> rendering on the server by default and using interactivity only where it is needed, with a type-checked, clean build across roughly 492 pre-rendered pages.</li>
+</ul>
+<p>
+  The stack is Next.js with the App Router, React, TypeScript, Tailwind CSS, a shadcn/ui component
+  base, Recharts for the dashboards and Lucide for iconography. The prototype is hosted on managed
+  cloud; production would sit in Azure alongside everything else.
+</p>
+</section>
+
+<!-- ============ 17 BUILD APPROACH ============ -->
+<section>
+<h2><span class="n">17.</span>Custom application or Power Platform?</h2>
+<p>A balanced position, so the tooling question does not derail the decision:</p>
+<ul class="tight">
+  <li>Power Apps, Power Automate and Dataverse are excellent for forms, workflow and a governed, low-maintenance data backend. They make a strong system of record and workflow engine.</li>
+  <li>A custom experience layer is stronger exactly where low-code is constrained: bespoke AI document intelligence, a rich search experience with an AI summary panel, and executive-grade dashboards.</li>
+  <li>The sensible model is to use Dataverse and Power Automate as the backend, and COCO AI as the front-end experience. That protects any Power Platform investment while keeping the AI and search capabilities that set this apart in review.</li>
+  <li>The real decision to make is who owns the backend versus the experience layer — not a binary choice between the two tools.</li>
+</ul>
+</section>
+
+<!-- ============ 18 DEVELOPER HAND-OFF ============ -->
+<section class="pagebreak">
+<h2><span class="n">18.</span>Developer hand-off notes</h2>
+<p>
+  A short orientation for whoever picks the code up next. The goal of the build was to make the path
+  to production a matter of connecting services, not rewriting the application.
+</p>
+
+<h3>Where it lives and how to run it</h3>
+<ul class="tight">
+  <li>The codebase is a single Next.js (App Router) project in TypeScript. Standard workflow: <code>npm install</code>, then <code>npm run dev</code> for local development, or <code>npm run build</code> and <code>npm start</code> for a production build. It builds clean and lint-clean.</li>
+  <li>It runs anywhere Node runs; the prototype is hosted on Vercel, and production is intended for Azure.</li>
+</ul>
+
+<h3>How the project is organised</h3>
+<ul class="tight">
+  <li><code>app/</code> — one folder per module (dashboard, incoming, outgoing, actions, sla, performance, intelligence, reporting, search, plus the record profile under search).</li>
+  <li><code>components/</code> — the interface: shared UI primitives, layout, charts, the interactive registers, the AI experience and the search experience.</li>
+  <li><code>lib/</code> — the brains: the typed domain model, the data layer, the analytics aggregations, the AI extraction module and the integration contracts.</li>
+</ul>
+
+<h3>The one thing to understand first</h3>
+<p>
+  Everything flows through a single data seam. The screens never read raw data; they read from the
+  analytics layer, which reads from the data layer. Today that data layer returns deterministic
+  sample records. To go to production, replace that layer with calls to Dataverse (and SharePoint
+  for documents) while keeping the same return shapes — the domain types in <code>lib</code> are
+  written to match the intended Dataverse tables. The screens should not need to change.
+</p>
+
+<h3>What is real and what is simulated</h3>
+<ul class="tight">
+  <li><b>Real:</b> all nine module interfaces, the filtering and search behaviour, the derived calculations (transit time, COCO processing time, SLA, overdue, age), the dashboards and the record profiles.</li>
+  <li><b>Simulated, by design:</b> the data itself, and the AI extraction (it returns realistic structured results rather than calling a live model). The integration layer is defined as contracts, not yet wired to live services.</li>
+</ul>
+
+<h3>The recommended order of work</h3>
+<ol class="tight">
+  <li>Stand up identity (Entra ID single sign-on) and the Dataverse tables from Section&nbsp;9.</li>
+  <li>Point the data layer at Dataverse, table by table, leaving the interface untouched.</li>
+  <li>Wire ingestion from Outlook and document storage in SharePoint.</li>
+  <li>Replace the simulated extraction with a live Azure OpenAI call, preserving the confidence-and-review pattern.</li>
+  <li>Add Azure AI Search behind the historical search screen for scale and semantic matching.</li>
+  <li>Layer Power Automate flows on top for routing, reminders and escalations.</li>
+</ol>
+<p>
+  In short: the experience, the data shapes and the workflow logic are already settled. The remaining
+  work is integration and migration, both of which the structure was built to accommodate.
+</p>
+</section>
+
+<!-- ============ GLOSSARY ============ -->
+<section>
+<h2><span class="n">19.</span>Glossary</h2>
+<ul class="tight small">
+  <li><b>COCO</b> — the Corporate Correspondence function.</li>
+  <li><b>Transit time</b> — days from stamping an incoming letter to assigning it.</li>
+  <li><b>COCO processing time</b> — days from submitting an outgoing letter to COCO until it is processed.</li>
+  <li><b>SLA</b> — service level agreement; the target turnaround window.</li>
+  <li><b>Stakeholder type</b> — the category of external party, such as regulator, community or vendor.</li>
+  <li><b>System of record</b> — the authoritative store for a piece of data; here, Dataverse.</li>
+  <li><b>Human in the loop</b> — a person reviews and approves AI output before it takes effect.</li>
+</ul>
+</section>
+
+</body>
+</html>

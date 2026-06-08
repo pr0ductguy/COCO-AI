@@ -80,6 +80,20 @@ Missed statutory deadlines and regulatory exposure; slow stakeholder responses; 
 
 ---
 
+## 4.1 Success Criteria
+
+The production system is a success when the following hold in day-to-day use — not in a demo, but as the normal way COCO works. These are the conditions delivery will be judged against, and they double as high-level acceptance criteria.
+
+- **Nothing is invisible.** Every piece of correspondence, in or out, is in the system with a named owner and a due date. No parallel tracking survives in private spreadsheets.
+- **The Section 2 questions are answerable on the spot.** A manager can stand at the dashboard and say where something is, who has it, and whether it is late — without phoning around.
+- **History is genuinely retrievable.** A named officer finds any historical letter, including one from 2003, in under ten seconds, and can show when it was received and how it was handled.
+- **The AI saves real time.** An incoming letter becomes a structured, owned record from an uploaded document with a fraction of today's manual typing, and the reviewer trusts the result enough to use it.
+- **Service levels are met and seen to be met.** SLA compliance holds at or above target, and looming breaches are visible early enough to act.
+- **It stands up to an audit.** An auditor can be handed a record and shown a complete, defensible trail from receipt to closure, with nothing edited away silently.
+- **People actually use it.** Officers prefer it to the old way because it removes drudgery; adoption does not have to be forced.
+
+---
+
 ## 5. Users & Personas
 
 | Persona | Needs | Key modules |
@@ -91,6 +105,32 @@ Missed statutory deadlines and regulatory exposure; slow stakeholder responses; 
 | **Auditor / Compliance** | Prove receipt dates and end-to-end trail | Search, record profiles |
 | **Records / Archivist** | Retrieve and manage the historical corpus | Historical Search |
 | **System Administrator** | Manage access, roles, integrations | Cross-cutting (admin) |
+
+---
+
+## 5.1 User Stories
+
+Written from the point of view of the people who will live in the system. Each carries an implied test: it is done when that person can do the thing described, on real data, without a workaround.
+
+**Capturing and owning correspondence**
+- As a **COCO Officer**, I want every incoming letter logged the moment it arrives — reference, sender, date received, date stamped — *so that nothing slips into a mailbox and disappears.* (Done when a new record is created in under a minute and appears in the register with its transit clock running.)
+- As a **COCO Manager**, I want each correspondence assigned to a named owner with a due date and priority, *so that responsibility is never ambiguous.* (Done when no item can sit in the pipeline without an owner, and unassigned items are flagged.)
+- As a **COCO Officer**, I want transit time and COCO processing time calculated for me, *so that the delays we have always argued about are measured, not guessed.* (Done when both appear automatically from the recorded dates and feed the dashboards.)
+
+**Staying on top of the work**
+- As a **COCO Officer**, I want overdue and due-soon items to stand out at a glance, *so that I work on the right thing first.* (Done when the Action Tracker distinguishes overdue, due-soon and on-track, and I can filter to my overdue items.)
+- As a **COCO Manager**, I want to see which departments and officers are slipping on service levels, *so that I can step in before a breach.* (Done when SLA compliance and overdue load are shown per team and per officer.)
+
+**Reading and routing with AI**
+- As a **COCO Officer**, I want to upload a scanned letter and have the system pull out sender, reference, due date, required action and risk, then write a summary, *so that I spend my time deciding, not typing.* (Done when an upload produces extracted fields with a confidence score, convertible to a draft record in one step.)
+- As a **COCO Manager**, I want the AI to flag the risk level of an incoming item, *so that a critical regulatory deadline is never treated as routine.* (Done when each AI-processed item carries a risk level a human can confirm or override.)
+
+**Finding anything, proving everything**
+- As a **Records Archivist**, I want to search the entire history by words, sender, year, department or theme, *so that retrieving a decades-old letter takes seconds.* (Done when a query returns ranked results across 2003 to today, narrowable by every listed filter.)
+- As an **Auditor**, I want to open any record and see a complete timeline from receipt to closure, *so that I can verify how and when we handled it.* (Done when the profile shows full metadata and an audit trail, and any change is recorded rather than overwritten.)
+
+**Seeing the whole picture**
+- As an **Executive**, I want a dashboard of volume, open and overdue actions, service levels and bottlenecks, plus a short written summary, *so that I understand the state of correspondence without commissioning a report.* (Done when leadership can read the current position and the key shifts directly from the screen.)
 
 ---
 
@@ -325,6 +365,38 @@ A balanced position, to pre-empt the tooling debate:
 
 ---
 
+## 18. Developer Hand-off Notes
+
+A short orientation for whoever picks the code up next. The build aimed to make the path to production a matter of connecting services, not rewriting the application.
+
+**Where it lives and how to run it**
+- A single Next.js (App Router) project in TypeScript. Workflow: `npm install`, then `npm run dev` locally, or `npm run build && npm start` for production. It builds clean and lint-clean.
+- Runs anywhere Node runs; the prototype is on Vercel, production is intended for Azure.
+
+**How the project is organised**
+- `app/` — one folder per module (dashboard, incoming, outgoing, actions, sla, performance, intelligence, reporting, search, plus the record profile under search).
+- `components/` — the interface: shared UI primitives, layout, charts, interactive registers, the AI experience and the search experience.
+- `lib/` — the brains: the typed domain model, the data layer, the analytics aggregations, the AI extraction module and the integration contracts.
+
+**The one thing to understand first**
+Everything flows through a single data seam. Screens never read raw data; they read from the analytics layer, which reads from the data layer. Today that data layer returns deterministic sample records. To go to production, replace it with calls to Dataverse (and SharePoint for documents) while keeping the same return shapes — the domain types in `lib` are written to match the intended Dataverse tables, so the screens should not need to change.
+
+**What is real and what is simulated**
+- *Real:* all nine module interfaces, filtering and search behaviour, the derived calculations (transit time, COCO processing time, SLA, overdue, age), the dashboards and the record profiles.
+- *Simulated by design:* the data itself, and the AI extraction (it returns realistic structured results rather than calling a live model). The integration layer is defined as contracts, not yet wired to live services.
+
+**Recommended order of work**
+1. Stand up identity (Entra ID SSO) and the Dataverse tables from Section 8.
+2. Point the data layer at Dataverse, table by table, leaving the interface untouched.
+3. Wire ingestion from Outlook and document storage in SharePoint.
+4. Replace the simulated extraction with a live Azure OpenAI call, preserving the confidence-and-review pattern.
+5. Add Azure AI Search behind the historical search screen for scale and semantic matching.
+6. Layer Power Automate flows on top for routing, reminders and escalations.
+
+In short: the experience, the data shapes and the workflow logic are settled. The remaining work is integration and migration — both of which the structure was built to accommodate.
+
+---
+
 ## Appendix A — Glossary
 
 - **COCO** — Corporate Correspondence function.
@@ -338,7 +410,3 @@ A balanced position, to pre-empt the tooling debate:
 ## Appendix B — Requirement Index
 
 Dashboard FR-DASH-01..07 · Incoming FR-IN-01..07 · Outgoing FR-OUT-01..04 · Actions FR-ACT-01..06 · SLA FR-SLA-01..05 · Performance FR-PERF-01..04 · AI FR-AI-01..07 · Reporting FR-REP-01..04 · Search FR-SEARCH-01..07 · Non-functional NFR-SEC/AUD/PRIV/PERF/AVAIL/A11Y/SCALE/RETAIN.
-
----
-
-*Prepared as a hand-off artifact. The accompanying prototype codebase demonstrates every functional requirement above on a 2003–2026 sample corpus.*
